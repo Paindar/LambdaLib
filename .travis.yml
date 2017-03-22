@@ -11,5 +11,6 @@ script:
  - ./gradlew assemble
  - ./gradlew check
  - ./gradlew clean build
+ - ./gradlew build
 install:
 - true
