@@ -7,9 +7,13 @@ cache:
   directories:
   - .autoconf
   - $HOME/.m2
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
   
 before_install:
  - chmod +x gradlew
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 script:
  - ./gradlew assemble
