@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-      
+      - image: codestar/circleci-scala-sbt-git:scala-2.12.2-sbt-0.13.15
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -21,6 +21,7 @@ jobs:
       TERM: dumb
     
     steps:
+      - sbt sbtVersion
       - checkout
 
       # Download and cache dependencies
