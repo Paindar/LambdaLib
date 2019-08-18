@@ -7,6 +7,7 @@
 package cn.lambdalib.core;
 
 import cn.lambdalib.annoreg.core.RegistrationManager;
+import cn.lambdalib.util.generic.ReflectionUtils;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
@@ -69,7 +70,6 @@ public class LLModContainer extends DummyModContainer {
         // Get annotation information from forge asm data table.
         // This must be done before PreInit stage.
         ASMDataTable data = event.getASMHarvestedData();
-
         Set<String> removedClasses = Sets.newHashSet();
         { // Get removed classes
             String startupSide = FMLCommonHandler.instance().getSide().toString();
@@ -100,6 +100,7 @@ public class LLModContainer extends DummyModContainer {
         Set<String> registryMods = mapToClass(data.getAll("cn.lambdalib.annoreg.core.RegistrationMod"));
         registryMods.removeAll(removedClasses);
         RegistrationManager.INSTANCE.addAnnotationMod(registryMods);
+        ReflectionUtils._init(data);
     }
 
     @Subscribe
