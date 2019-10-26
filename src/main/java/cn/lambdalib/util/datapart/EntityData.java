@@ -73,7 +73,7 @@ public final class EntityData<Ent extends EntityLivingBase> implements IExtended
             entity.registerExtendedProperties(ID, ret);
 
             // Construct all non-lazy parts
-            _allApplicable(entity).filter(data -> !data.lazy).forEach(ret::_constructPart);
+            _allApplicable(entity).forEach(ret::_constructPart);
         }
 
         return ret;
@@ -227,13 +227,10 @@ public final class EntityData<Ent extends EntityLivingBase> implements IExtended
         @SubscribeEvent
         public void onLivingDeath(LivingDeathEvent evt) {
             if (evt.entityLiving instanceof EntityPlayer) {
-                EntityData<EntityPlayer> playerData = EntityData.get((EntityPlayer) evt.entityLiving);
-                Iterator<DataPart> iter = playerData.constructed.values().iterator();
-                while (iter.hasNext()) {
-                    DataPart dp = iter.next();
-                    if (dp.clearOnDeath) {
-                        iter.remove();
-                    }
+                EntityData<EntityPlayer> playerData = EntityData.getNonCreate((EntityPlayer) evt.entityLiving);
+                if (playerData!=null)
+                {
+                    playerData.constructed.values().removeIf(dp -> dp.clearOnDeath);
                 }
             }
         }
